@@ -140,14 +140,28 @@ function secCount() {
 }
 var timeStarted = false;
 
+function stopCount() {
+  const finishTime = `${document.querySelector(".min-count").innerText}: ${document.querySelector(".sec-count").innerText}`;
+  const finishAttempt = document.querySelector(".count").innerHTML;
+  const clear = document.getElementById("clear");
+  const countContainer = document.querySelector(".count-container");
+  document.querySelector(".clear-time").innerText = `クリアタイム： ${finishTime}`;
+  document.querySelector(".clear-attempt").innerText = `めくった枚数： ${finishAttempt}枚`;
+  clear.style.display = "block";
+  countContainer.style.display = "none";
+  game.style.display = "none";
+}
+
 // reset all attempts
-let reset = document.querySelector(".reset");
-reset.addEventListener("click", () => {
-  let confirmReset = confirm("Whole game will start again, continue to reset?");
-  if (confirmReset === true) {
-    window.location.reload();
-  }
-})
+let reset = document.querySelectorAll(".reset");
+for (const button of reset) {
+  button.addEventListener("click", () => {
+    let confirmReset = confirm("Whole game will start again, continue to reset?");
+    if (confirmReset === true) {
+      window.location.reload();
+    }
+  })
+}
 
 let firstGuess = "";
 let secondGuess = "";
@@ -160,6 +174,18 @@ const match = () => {
   selected.forEach((card) => {
     card.classList.add("match");
   })
+
+  // if clear
+  var allCard = document.querySelectorAll(".card");
+  let isAllMatch = true;
+  allCard.forEach((card) => {
+    if (!card.classList.contains("match")) {
+      isAllMatch = false;
+    }
+  })
+  if (isAllMatch) {
+    stopCount();
+  }
 }
 
 const resetGuesses = () => {
@@ -176,12 +202,13 @@ grid.addEventListener("click", (event) => {
   !timeStarted && secCount();
   timeStarted = true;
   let clicked = event.target;
-  attemptCount++;
-  attempts.innerText = attemptCount;
+
   if (clicked.nodeName == "SECTION" || clicked === previousTarget || clicked.parentNode.classList.contains("selected")) {
     return;
   }
   if (count < 2) {
+    attemptCount++;
+    attempts.innerText = attemptCount;
     count++;
     if (count === 1) {
       firstGuess = clicked.parentNode.dataset.name;

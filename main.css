@@ -13,12 +13,8 @@
   padding: 1rem;  
   color: bisque;  
  }  
- .count-container {  
-  display: flex;  
-  justify-content: space-between;  
-  align-items: center;  
-  width: 60%;  
-  margin: auto auto;  
+ .count-container {
+  text-align: center;  
   padding: 2rem 0;  
  }  
  .attempts {  
@@ -86,4 +82,16 @@
   contain !important;  
   cursor: not-allowed;  
   transform: none !important;  
- }  
+ }
+
+ #clear {
+   display: none;
+   text-align: center;
+   margin-bottom: 20px;
+   color: #fff;
+   font-size: 2rem;
+ }
+ #clear img {
+   width: 100%;
+   max-width: 500px;
+ }
